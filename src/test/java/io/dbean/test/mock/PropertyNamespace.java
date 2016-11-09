@@ -1,6 +1,6 @@
-package io.probean.test.mock;
+package io.dbean.test.mock;
 
-import io.probean.Namespace;
+import io.dbean.Namespace;
 
 public class PropertyNamespace extends Namespace {
 

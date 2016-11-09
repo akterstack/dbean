@@ -1,4 +1,4 @@
-package io.probean;
+package io.dbean;
 
 import io.hackable.Hackable;
 
@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class Probean<T> implements Serializable, Hackable {
+public abstract class DBean<T> implements Serializable, Hackable {
 
     private Map<Namespace, Object> propertyValuesMap = new HashMap<>();
 

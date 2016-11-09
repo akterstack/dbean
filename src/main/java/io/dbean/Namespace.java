@@ -1,4 +1,4 @@
-package io.probean;
+package io.dbean;
 
 public abstract class Namespace {
 

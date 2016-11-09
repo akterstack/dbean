@@ -1,10 +1,10 @@
-package io.probean;
+package io.dbean;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 
-public class ProbeanRegistry {
+public class DBeanRegistry {
 
     private static final int PUBLIC_STATIC_MODIFIER_VALUE = 9;
 

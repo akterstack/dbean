@@ -1,4 +1,4 @@
-package io.probean;
+package io.dbean;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

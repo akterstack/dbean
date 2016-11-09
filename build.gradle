@@ -1,4 +1,4 @@
-group 'io.probean'
+group 'io.dbean'
 version '1.0.0-SNAPSHOT'
 
 apply plugin: 'java'

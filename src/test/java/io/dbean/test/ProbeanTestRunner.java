@@ -1,4 +1,4 @@
-package io.probean.test;
+package io.dbean.test;
 
 public class ProbeanTestRunner {
 }
