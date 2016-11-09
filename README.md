@@ -1,0 +1,2 @@
+# probean
+Property first Bean
