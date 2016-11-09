@@ -2,10 +2,21 @@ package io.probean;
 
 import io.hackable.Hackable;
 
-public abstract class Probean<T> implements Hackable {
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
-    public <P> P get(Namespace namespace) {
-        return this.get(namespace);
+public abstract class Probean<T> implements Serializable, Hackable {
+
+    private Map<Namespace, Object> propertyValuesMap = new HashMap<>();
+
+    public <V> V get(Namespace namespace) {
+        return (V)propertyValuesMap.get(namespace);
+    }
+
+    public T set(Namespace namespace, Object value) {
+        propertyValuesMap.put(namespace, value);
+        return (T)this;
     }
 
 }

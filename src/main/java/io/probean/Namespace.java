@@ -8,9 +8,8 @@ public abstract class Namespace {
         this.namespace = namespace;
     }
 
-
-
-    public String value() {
+    @Override
+    public String toString() {
         return namespace;
     }
 

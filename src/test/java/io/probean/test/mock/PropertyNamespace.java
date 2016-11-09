@@ -1,4 +1,4 @@
-package io.probean.test;
+package io.probean.test.mock;
 
 import io.probean.Namespace;
 
