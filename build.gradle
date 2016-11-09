@@ -17,6 +17,8 @@ repositories {
 dependencies {
     //compile 'io.hackable:hackable:1.0.0-SNAPSHOT'
 
+    testCompile 'junit:junit:4.12'
+
     compile project(":hackable")
 }
 
