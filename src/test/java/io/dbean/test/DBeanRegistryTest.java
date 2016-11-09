@@ -5,7 +5,9 @@ import io.dbean.test.mock.PropertyNamespace;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class ProBeanRegistryTest {
+import static io.dbean.test.mock.PropertyNamespace.*;
+
+public class DBeanRegistryTest {
 
     @Test
     public void testRegisterPropertyNamespace() {
