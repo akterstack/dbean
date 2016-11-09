@@ -1,0 +1,22 @@
+group 'io.probean'
+version '1.0.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'maven'
+
+compileJava {
+    options.fork = true
+    options.incremental = true
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    //compile 'io.hackable:hackable:1.0.0-SNAPSHOT'
+
+    compile project(":hackable")
+}
+
