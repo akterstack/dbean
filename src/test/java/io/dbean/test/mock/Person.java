@@ -22,7 +22,7 @@ public class Person extends DBean<Person> {
     @Override
     public String toString() {
         return "id: " + id +
-                "\nusername: " + username;
+                ", username: " + username;
     }
 
 }

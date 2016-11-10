@@ -29,6 +29,11 @@ public abstract class DBean<T> implements Serializable, Hackable {
 
     public boolean validate() {
         PropertyValidator validator = DBeanRegistry.propertyValidator();
+
+        return false;
+    }
+
+    public boolean isEmpty() {
         return false;
     }
 }

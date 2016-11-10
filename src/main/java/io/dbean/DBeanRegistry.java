@@ -42,6 +42,10 @@ public class DBeanRegistry {
         return assignableClass.isAssignableFrom(field.getType());
     }
 
+    public static void registerDBean(Class<? extends DBean> dbeanClass) {
+
+    }
+
     public static PropertyValidator propertyValidator() {
         return new PropertyValidator(); //TODO: register it on initialize
     }
