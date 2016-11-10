@@ -5,10 +5,12 @@ import io.dbean.Namespace;
 public class PropertyNamespace extends Namespace {
 
     public static PropertyNamespace
-            name,
-            description,
             createdDate,
+            description,
+            id,
+            name,
             updatedDate,
+            username,
             zid = new PropertyNamespace("ZoneId");
 
     public PropertyNamespace(String namespace) {
