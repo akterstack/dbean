@@ -9,6 +9,8 @@ public class PropertyNamespace extends Namespace {
             description,
             id,
             name,
+            firstName,
+            lastName,
             updatedDate,
             username,
             zid = new PropertyNamespace("ZoneId");

@@ -10,7 +10,7 @@ public class DBeanRegistry {
 
     private static final int PUBLIC_STATIC_MODIFIER_VALUE = 9;
 
-    public static <T extends Namespace> void registerPropertyNamespace(Class<T> namespaceClass) {
+    public static void registerPropertyNamespace(Class<? extends Namespace> namespaceClass) {
         Field[] fields = namespaceClass.getDeclaredFields();
         for(Field field : fields) {
             try {
@@ -18,7 +18,7 @@ public class DBeanRegistry {
                         && isPublicStatic(field)
                         && isNamespaceType(field, namespaceClass)) {
 
-                    Constructor<T> constructor = namespaceClass.getConstructor(String.class);
+                    Constructor<?> constructor = namespaceClass.getConstructor(String.class);
                     field.set(null, constructor.newInstance(field.getName()));
                 }
             } catch(NoSuchMethodException

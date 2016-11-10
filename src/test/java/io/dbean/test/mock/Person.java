@@ -11,8 +11,9 @@ public class Person extends DBean<Person> {
 
     @Property
     private Integer id;
-    @Username(maxLength = 10)
+    @Username
     private String username;
+    @Property
     private String firstName;
     private String lastName;
     @Text
