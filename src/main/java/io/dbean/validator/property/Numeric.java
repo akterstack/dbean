@@ -9,7 +9,8 @@ import java.lang.annotation.Target;
 @Property
 @Target({ElementType.FIELD, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Username {
-    int minLength() default 2;
-    int maxLength() default 64;
+public @interface Numeric {
+    int minValue() default 10;
+    int maxValue() default 4096; //TODO: use as max as possible in java
+    int[] inBetween() default {10, 4096};
 }

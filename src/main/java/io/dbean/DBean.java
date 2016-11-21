@@ -1,19 +1,19 @@
 package io.dbean;
 
-import io.dbean.validator.PropertyValidator;
-import io.dbean.validator.property.Username;
-import io.hackable.Hackable;
+import io.dbean.validator.BasicPropertyValidationRules;
 
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.lang.reflect.Method;
 import java.util.Map;
 
-public abstract class DBean<T> implements Serializable, Hackable {
+import static io.hackable.Hackable.applyFilter;
+
+public abstract class DBean<T> implements Serializable {
 
     //private Map<Namespace, Object> propertyValuesMap = new HashMap<>();
+    private static BasicPropertyValidationRules rules = null;
 
     public <V> V get(Namespace namespace) throws NoSuchFieldException, IllegalAccessException {
         Field field = getField(namespace);
@@ -32,17 +32,41 @@ public abstract class DBean<T> implements Serializable, Hackable {
         return this.getClass().getDeclaredField(namespace.toString());
     }
 
-    public boolean validate() {
-        PropertyValidator validator = DBeanRegistry.propertyValidator();
-        Class<? extends DBean> dbeanClass = this.getClass();
-        Field[] fields = dbeanClass.getDeclaredFields();
-        for(Field field : fields) {
-            Username annotation = field.getAnnotation(Username.class);
-            if(annotation != null)
-                System.out.println(annotation.maxLength());
+    public static boolean setRules(Class<? extends BasicPropertyValidationRules> classRules) throws InstantiationException, IllegalAccessException {
+        if(rules == null) {
+            rules = classRules.newInstance();
         }
+        return true;
+    }
 
-        return false;
+    public boolean validate() {
+        DBean context = this;
+        Annotation[] annotations;
+        Map annotationMap = DBeanRegistry.getPropertyMap();
+        Field[] fields = context.getClass().getDeclaredFields();
+        for(Field field : fields) {
+            try {
+                field.setAccessible(true);
+                annotations = field.getAnnotations();
+                for(Annotation annotation : annotations) {
+                    if(annotationMap.containsKey(annotation.annotationType())) {
+                        Method[] declaredMethods = annotation.annotationType().getDeclaredMethods();
+                        for(Method method : declaredMethods) {
+                            if(!(boolean)
+                                    rules
+                                    .getClass()
+                                    .getMethod(method.getName(), field.getType(), method.getReturnType())
+                                    .invoke(rules, field.get(context), method.invoke(annotation)))
+                                return false;
+                        }
+                    }
+                }
+            }catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean isEmpty() {

@@ -8,21 +8,35 @@ public interface BasicPropertyValidationRules {
         return true;
     }
 
-    default boolean length(String value, Integer context) {
-        return value.length() == context;
+    default boolean length(String instanceVal, int defaultVal) {
+        return instanceVal.length() == defaultVal;
     }
 
-    default boolean minLength(String value, Integer context) {
-        return value.length() >= context;
+    default boolean minLength(String instanceVal, int defaultVal) {
+        return instanceVal.length() >= defaultVal;
     }
 
-    default boolean maxLength(String value, Integer context) {
-        return value.length() <= context;
+    default boolean maxLength(String instanceVal, int defaultVal) {
+        return instanceVal.length() <= defaultVal;
     }
 
-    default boolean lengthBetween(String value , Integer[] context) throws PropertyValidationException {
+    default boolean minValue(Integer instanceVal, int defaultVal) {
+        return instanceVal >= defaultVal;
+    }
+
+    default boolean maxValue(Integer instanceVal, int defaultVal) {
+        return instanceVal <= defaultVal;
+    }
+
+    default boolean lengthBetween(String instanceVal , int[] context) throws PropertyValidationException {
         if(context.length != 2)
             throw new PropertyValidationException();
-        return minLength(value, context[0]) && maxLength(value, context[1]);
+        return minLength(instanceVal, context[0]) && maxLength(instanceVal, context[1]);
+    }
+
+    default boolean inBetween(Integer instanceVal, int[] defaultVal) throws PropertyValidationException {
+        if(defaultVal.length != 2 || defaultVal[0] > defaultVal[1])
+            throw new PropertyValidationException();
+        return minValue(instanceVal, defaultVal[0]) && maxValue(instanceVal, defaultVal[1]);
     }
 }
