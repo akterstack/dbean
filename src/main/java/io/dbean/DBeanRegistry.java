@@ -56,10 +56,6 @@ public final class DBeanRegistry {
                 }
             }
         }
-        validatorMap.forEach((key, val) -> {
-            System.out.println(key);
-            System.out.println(val);
-        });
     }
 
     public static void registerPropertyValidator(String name, PropertyValidator propertyValidator) throws DBeanException {
