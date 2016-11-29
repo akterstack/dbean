@@ -1,6 +1,6 @@
 package io.dbean.validator;
 
-public interface BasicPropertyValidationRules {
+public interface XBasicPropertyValidator {
 
     default boolean nullable(Object value, Boolean context) {
         if(!context)
