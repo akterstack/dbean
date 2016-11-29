@@ -9,7 +9,7 @@ class DBeanRegistryTests {
 
     @Test
     void scanAndRegisterPropertyValidator() {
-        DBeanRegistry.scanAndRegisterPropertyValidator(BasicPropertyValidator)
+        DBeanRegistry.scanAndRegisterPropertyValidator(new BasicPropertyValidator())
     }
 
 }

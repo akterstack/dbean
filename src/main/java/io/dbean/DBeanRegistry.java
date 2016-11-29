@@ -19,7 +19,7 @@ public final class DBeanRegistry {
     private DBeanRegistry() {}
 
     public static void initialize() throws DBeanException {
-        scanAndRegisterPropertyValidator(BasicPropertyValidator.class);
+        scanAndRegisterPropertyValidator(new BasicPropertyValidator());
     }
 
     public static void scanAndRegisterPropertyRules(String packageName) {
@@ -48,13 +48,18 @@ public final class DBeanRegistry {
             for(Method method : methods) {
                 if(method.getReturnType().isAssignableFrom(PropertyValidator.class)) {
                     try {
-                        registerPropertyValidator(method.getName(), (PropertyValidator)method.invoke(validator, null));
+                        registerPropertyValidator(method.getName(), (PropertyValidator)method.invoke(validator));
                     } catch(IllegalAccessException | InvocationTargetException e) {
+                        e.printStackTrace();
                         throw new DBeanException(e);
                     }
                 }
             }
         }
+        validatorMap.forEach((key, val) -> {
+            System.out.println(key);
+            System.out.println(val);
+        });
     }
 
     public static void registerPropertyValidator(String name, PropertyValidator propertyValidator) throws DBeanException {
