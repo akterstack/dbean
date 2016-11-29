@@ -82,6 +82,7 @@ public final class NamespaceRegistry {
     }
 
     public static PropertyValidator propertyValidator() {
-        return new PropertyValidator(); //TODO: register it on initialize
+        return null;
+        //return new PropertyValidator(); //TODO: register it on initialize
     }
 }
