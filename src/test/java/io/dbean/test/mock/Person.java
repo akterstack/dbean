@@ -1,7 +1,7 @@
 package io.dbean.test.mock;
 
 import io.dbean.DBean;
-import io.dbean.Property;
+import io.dbean.PropertyRule;
 import io.dbean.test.property.FirstName;
 import io.dbean.validator.property.Numeric;
 import io.dbean.validator.property.Text;
@@ -11,7 +11,7 @@ import java.util.Date;
 
 public class Person extends DBean<Person> {
 
-    @Property
+    @PropertyRule
     private Integer id;
     @Username
     private String username;

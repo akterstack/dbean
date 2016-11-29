@@ -1,15 +1,11 @@
-package io.dbean.validator.property;
-
-import io.dbean.PropertyRule;
+package io.dbean;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@PropertyRule
-@Target({ElementType.FIELD, ElementType.METHOD})
+@Target({ElementType.FIELD, ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Date {
-    //TODO
+public @interface SingletonPropertyRule {
 }

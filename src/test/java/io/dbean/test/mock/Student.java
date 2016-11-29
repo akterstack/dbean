@@ -1,11 +1,11 @@
 package io.dbean.test.mock;
 
 import io.dbean.DBean;
-import io.dbean.Property;
+import io.dbean.PropertyRule;
 
 public class Student extends DBean<Student> {
 
-    @Property
+    @PropertyRule
     private String firstName;
 
 }

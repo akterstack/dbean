@@ -3,7 +3,11 @@ package io.dbean;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class DBeanGS<T> extends DBean<T> {
+/**
+ * Support with Namespace
+ * @param <T>
+ */
+public abstract class NamespacedDBean<T> extends DBean<T> {
 
     private Map<Namespace, Object> propertyValueMap = new HashMap<>();
 
@@ -14,5 +18,10 @@ public abstract class DBeanGS<T> extends DBean<T> {
     public  <V> T set(Namespace namespace, V value) {
         propertyValueMap.put(namespace, value);
         return (T)this;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return super.isEmpty() && propertyValueMap.isEmpty();
     }
 }

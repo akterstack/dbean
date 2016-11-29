@@ -1,15 +1,15 @@
 package io.dbean.validator.property;
 
-import io.dbean.PropertyRule;
+import io.dbean.SingletonPropertyRule;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@PropertyRule
+@SingletonPropertyRule
 @Target({ElementType.FIELD, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Username {
-    int minLength() default 2;
-    int maxLength() default 64;
+public @interface Max {
+    int value();
 }
