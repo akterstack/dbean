@@ -1,2 +1,7 @@
 # dbean - Data Bean
-where property is a first class citizen
+data bean
+
+### for what
+ - validator
+ - converter
+ - formatter

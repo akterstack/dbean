@@ -5,6 +5,8 @@ import io.dbean.DBeanRegistry
 import io.dbean.validator.BasicPropertyValidator
 import org.junit.Test
 
+import static org.junit.Assert.*;
+
 
 class DBeanRegistryTests {
 
@@ -15,8 +17,8 @@ class DBeanRegistryTests {
 
     @Test
     void scanAndRegisterDBeanComponents() {
-        List<DBean> dBeanList = DBeanRegistry.registerDBeans("io.dbean.test.dbeans")
-        dBeanList.each { println(it) }
+        List<Class<? extends DBean>> dBeanClassList = DBeanRegistry.registerDBeanClasses("io.dbean.test.dbeans")
+        assertEquals("all dbeans loaded", 1, dBeanClassList.size())
     }
 
 }

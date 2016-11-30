@@ -17,22 +17,15 @@ import java.util.Map;
 
 public final class DBeanRegistry {
 
-    private static List<DBean> registeredDBeans = new LinkedList<>();
+    private static List<Class<? extends DBean>> registeredDBeanClasses = new ArrayList<>();
     private static Map<String, PropertyValidator> registeredMapOfValidators = new HashMap<>();
 
     private DBeanRegistry() {
     }
 
-    public static void initialize() throws DBeanException {
+    public static void initialize()
+            throws DBeanException, IOException, ClassNotFoundException {
         scanAndRegisterPropertyValidators(new BasicPropertyValidator());
-    }
-
-    public static void scanAndRegisterPropertyRules(String packageName) {
-
-    }
-
-    public static void registerPropertyRules(Class... annotationClasses) {
-
     }
 
     public static void scanAndRegisterPropertyValidators(Object... validators) throws DBeanException {
@@ -68,35 +61,34 @@ public final class DBeanRegistry {
         registeredMapOfValidators.put(name, propertyValidator);
     }
 
-    public static List<DBean> registerDBeans(String packageName)
+    public static List<Class<? extends DBean>> registerDBeanClasses(String packageName)
             throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        List<Class<DBean>> dbeanClasses = new ArrayList<>();
+        List<Class<? extends DBean>> dbeanClasses = new ArrayList<>();
         for(Class<?> dc : DBeanClassLoader.scan(packageName).loadAll()) {
             if(DBean.class.isAssignableFrom(dc))
                 dbeanClasses.add((Class<DBean>)dc);
         }
-        return registerDBeans(dbeanClasses);
+        return registerDBeanClasses(dbeanClasses);
     }
 
-    public static List<DBean> registerDBeans(Class<DBean>... dBeanClasses)
+    public static List<Class<? extends DBean>> registerDBeanClasses(Class<? extends DBean>... dBeanClasses)
             throws InstantiationException, IllegalAccessException {
-        return registerDBeans(Arrays.asList(dBeanClasses));
+        return registerDBeanClasses(Arrays.asList(dBeanClasses));
     }
 
-    public static List<DBean> registerDBeans(List<Class<DBean>> dBeanClasses)
+    public static List<Class<? extends DBean>> registerDBeanClasses(List<Class<? extends DBean>> dBeanClasses)
             throws IllegalAccessException, InstantiationException {
-        List<DBean> dBeans = new LinkedList<>();
+        List<Class<? extends DBean>> loaded = new LinkedList<>();
         for(Class<? extends DBean> dBeanClass : dBeanClasses) {
-            DBean dBean = dBeanClass.newInstance();
-            dBean.initialize();
-            dBeans.add(dBean);
+            DBean.register(dBeanClass);
+            loaded.add(dBeanClass);
         }
-        registeredDBeans.addAll(dBeans);
-        return dBeans;
+        registeredDBeanClasses.addAll(loaded);
+        return loaded;
     }
 
-    public static List<DBean> getRegisteredDBeans() {
-        return Collections.unmodifiableList(registeredDBeans);
+    public static List<Class<? extends DBean>> getRegisteredDBeanClasses() {
+        return Collections.unmodifiableList(registeredDBeanClasses);
     }
 
     public static Map<String, PropertyValidator> getRegisteredMapOfValidators() {
