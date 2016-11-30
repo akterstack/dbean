@@ -1,4 +1,4 @@
-package io.dbean.validator.property;
+package io.dbean.validator.rule;
 
 import io.dbean.PropertyRule;
 import java.lang.annotation.ElementType;
@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 @PropertyRule
 @Target({ElementType.FIELD, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Text {
+public @interface Username {
     int minLength() default 2;
-    int maxLength() default 4096; //TODO: use as max as possible in java
+    int maxLength() default 64;
 }

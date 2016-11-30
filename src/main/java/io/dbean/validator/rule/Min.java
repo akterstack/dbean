@@ -1,4 +1,4 @@
-package io.dbean.validator.property;
+package io.dbean.validator.rule;
 
 import io.dbean.SingletonPropertyRule;
 
@@ -10,6 +10,6 @@ import java.lang.annotation.Target;
 @SingletonPropertyRule
 @Target({ElementType.FIELD, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Max {
+public @interface Min {
     int value();
 }
