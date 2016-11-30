@@ -72,7 +72,7 @@ public final class DBeanRegistry {
             throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         List<Class<DBean>> dbeanClasses = new ArrayList<>();
         for(Class<?> dc : DBeanClassLoader.scan(packageName).loadAll()) {
-            if(dc.isAssignableFrom(DBean.class))
+            if(DBean.class.isAssignableFrom(dc))
                 dbeanClasses.add((Class<DBean>)dc);
         }
         return registerDBeans(dbeanClasses);
@@ -89,12 +89,13 @@ public final class DBeanRegistry {
         for(Class<? extends DBean> dBeanClass : dBeanClasses) {
             DBean dBean = dBeanClass.newInstance();
             dBean.initialize();
+            dBeans.add(dBean);
         }
         registeredDBeans.addAll(dBeans);
         return dBeans;
     }
 
-    public static List<? extends DBean> getRegisteredDBeans() {
+    public static List<DBean> getRegisteredDBeans() {
         return Collections.unmodifiableList(registeredDBeans);
     }
 
