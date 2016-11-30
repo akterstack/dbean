@@ -21,30 +21,38 @@ public abstract class DBean implements Serializable {
     }
 
     private static void scanUsageOfAnyPropertyRules(Class<? extends DBean> dBeanClass) {
-        List<Annotation> propertyRules = new ArrayList<>();
-        List<Annotation> singletonPropertyRules = new ArrayList<>();
         for(Method getter : getters(dBeanClass)) {
-            for(Annotation annotation : getter.getDeclaredAnnotations()) {
-                if(annotation.annotationType().isAnnotationPresent(PropertyRule.class)) {
-                    propertyRules.add(annotation);
-                } else if(annotation.annotationType().isAnnotationPresent(SingletonPropertyRule.class)) {
-                    singletonPropertyRules.add(annotation);
-                }
-            }
+            /* scan getters' property rules */
+            scanPropertyRules(getter.getDeclaredAnnotations(), dBeanClass);
             try {
-                for(Annotation annotation : getterToProperty(getter, dBeanClass).getDeclaredAnnotations()) {
-                    if(annotation.annotationType().isAnnotationPresent(PropertyRule.class)) {
-                        propertyRules.add(annotation);
-                    } else if(annotation.annotationType().isAnnotationPresent(SingletonPropertyRule.class)) {
-                        singletonPropertyRules.add(annotation);
-                    }
-                }
+                /* scan fields' property rules */
+                scanPropertyRules(getterToProperty(getter, dBeanClass).getDeclaredAnnotations(), dBeanClass);
             } catch(NoSuchFieldException e) {
-                System.out.println("");
+                //todo: update with logger.debug
+                //"No field for getter " + getter.getName() + " found.
+                // Skipping scanning property rules for this getter's field."
             }
         }
-        usedPropertyRules.put(dBeanClass, propertyRules);
-        usedSingletonPropertyRules.put(dBeanClass, singletonPropertyRules);
+    }
+
+    private static void scanPropertyRules(Annotation[] annotations, Class<? extends DBean> dBeanClass) {
+        List<Annotation> propertyRules = initState(usedPropertyRules, dBeanClass);
+        List<Annotation> singletonPropertyRules = initState(usedSingletonPropertyRules, dBeanClass);
+        for(Annotation annotation : annotations) {
+            if(annotation.annotationType().isAnnotationPresent(PropertyRule.class)) {
+                propertyRules.add(annotation);
+            } else if(annotation.annotationType().isAnnotationPresent(SingletonPropertyRule.class)) {
+                singletonPropertyRules.add(annotation);
+            }
+        }
+
+    }
+
+    private static List<Annotation> initState(
+            Map<Class<? extends DBean>, List<Annotation>> usedRules,
+            Class<? extends DBean> dBeanClass) {
+        usedRules.computeIfAbsent(dBeanClass, k -> new ArrayList<>());
+        return usedRules.get(dBeanClass);
     }
 
     public boolean validate() {
@@ -81,7 +89,9 @@ public abstract class DBean implements Serializable {
 
     private static List<Method> getters(Class<?> clazz) {
         return Arrays.stream(clazz.getMethods())
-                .filter(m -> m.getName().startsWith("get") && m.getName().length() > 3)
+                .filter(m ->
+                        m.getName().startsWith("get") &&
+                                m.getName().length() > "get".length())
                 .collect(Collectors.toList());
     }
 
