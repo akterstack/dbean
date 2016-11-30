@@ -9,7 +9,23 @@ import java.util.List;
 
 public final class DBeanClassLoader {
 
-    private DBeanClassLoader() {}
+    private String packageName;
+
+    private DBeanClassLoader(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public static DBeanClassLoader scan(String packageName) {
+        return new DBeanClassLoader(packageName);
+    }
+
+    public List<Class<?>> loadAll() throws IOException, ClassNotFoundException {
+        return loadAllClasses(this.packageName);
+    }
+
+    public List<String> findAll() throws IOException {
+        return findAllClassNames(this.packageName);
+    }
 
     public static List<Class<?>> loadAllClasses(String packageName)
             throws ClassNotFoundException, IOException {
@@ -23,7 +39,7 @@ public final class DBeanClassLoader {
     }
 
     public static List<String> findAllClassNames(String packageName)
-            throws ClassNotFoundException, IOException {
+            throws IOException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         assert classLoader != null;
         String path = packageName.replace('.', '/');

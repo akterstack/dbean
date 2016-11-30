@@ -1,7 +1,9 @@
-package io.dbean.test.mockdbeans
+package io.dbean.test.dbeans
+
+import io.dbean.DBean
 
 
-class MockDBean {
+class MockDBean extends DBean {
 
     Long id
 
